@@ -1,28 +1,51 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import dataContext, { Data } from '../context/dataContext'
 
-interface Props {}
+interface Props {
+  id: string
+  // setData: () => void
+}
 
-export default function ElementJS(params: Props) {
-  const myTextArea = useRef<HTMLTextAreaElement>(null)
+export default function ElementJS({ id }: Props) {
+  const myTextArea = useRef<HTMLInputElement>(null)
+  const { data, setData } = useContext(dataContext)
 
   const [scriptRaw, setScriptRaw] = useState('')
-
   const [showRaw, setShowRaw] = useState(false)
   const [scriptEval, setScriptEval] = useState('')
 
   useEffect(() => {
+    setData((prev: Data) => ({
+      ...prev,
+      [id]: {
+        jsEval: scriptEval,
+        jsRaw: scriptRaw,
+      },
+    }))
+  }, [scriptRaw, scriptEval])
+
+  useEffect(() => {
     try {
-      setScriptEval(
-        scriptRaw.startsWith('=') ? eval(scriptRaw.slice(1)) : scriptRaw
-      )
+      // @ts-ignore: Unreachable code error
+      function Get(id: string) {
+        return data[id].jsEval
+      }
+      const isStringIsNum = !isNaN(Number(scriptRaw))
+      let raw = isStringIsNum ? Number(scriptRaw) : scriptRaw
+
+      const evalScript = (s: string) =>
+        eval(s.slice(1).replace(/(JS_\d+)/gi, 'Get("$1")'))
+
+      setScriptEval(scriptRaw.startsWith('=') ? evalScript(scriptRaw) : raw)
     } catch (error) {
-      setScriptEval('error')
+      console.log(error)
+      setScriptEval('#N/D')
     }
     if (showRaw && myTextArea.current) myTextArea.current.focus()
-  }, [showRaw])
+  }, [showRaw, data])
 
   useHotkeys('enter', () => {
     setShowRaw(false)
@@ -37,12 +60,15 @@ export default function ElementJS(params: Props) {
         Your message
       </label> */}
       {!showRaw && (
-        <div className="dark:bg-gray-700 p-5" onClick={() => setShowRaw(true)}>
-          {scriptEval || 'nada'}
+        <div
+          className="dark:bg-gray-700 p-2.5"
+          onClick={() => setShowRaw(true)}
+        >
+          {scriptEval || '_'}
         </div>
       )}
       {showRaw && (
-        <textarea
+        <input
           id="message"
           ref={myTextArea}
           // rows="4"
@@ -51,7 +77,15 @@ export default function ElementJS(params: Props) {
           value={scriptRaw}
           onBlur={() => setShowRaw(false)}
           onChange={e => setScriptRaw(e.currentTarget.value)}
-        ></textarea>
+          autoComplete="off"
+          spellCheck={false}
+          // onKeyDown={e => {
+          //   if (e.currentTarget.onkeydown) {
+
+          //     e.currentTarget.onkeydown(asdasdsad)
+          //   }
+          // }}
+        ></input>
       )}
     </div>
   )
