@@ -40,7 +40,7 @@ export default function Page() {
       if (item.type === SIDEBAR_ITEM) {
         // 1. Move sidebar item into page
         const newComponent = {
-          id: uniqueId('_'),
+          id: uniqueId('component_'),
           ...item.component,
         }
         const newItem = {
@@ -115,7 +115,7 @@ export default function Page() {
 
   return (
     <WrapperDevEdit>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col">
         {/* {Array(5)
           .fill(false)
           .map((_, id) => (
@@ -152,6 +152,15 @@ export default function Page() {
             </Fragment>
           )
         })}
+        <DropZone
+          data={{
+            path: `${layout.length}`,
+            childrenCount: layout.length,
+          }}
+          onDrop={handleDrop}
+          isLast
+          className=""
+        />
       </div>
     </WrapperDevEdit>
   )

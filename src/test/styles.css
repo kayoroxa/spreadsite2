@@ -45,7 +45,7 @@ body {
 }
 
 .dropZone.horizontalDrag {
-  width: 40px;
+  width: 10px;
   height: auto;
 }
 
@@ -70,11 +70,6 @@ body {
   border: 1px solid blue;
   flex: 1 1 100%;
   padding: 10px;
-}
-
-.columns {
-  display: flex;
-  padding: 20px 0;
 }
 
 .columnContainer {
