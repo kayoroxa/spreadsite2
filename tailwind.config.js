@@ -7,6 +7,7 @@ module.exports = {
     './src/molecules/**/*.{js,ts,jsx,tsx}',
     './src/organisms/**/*.{js,ts,jsx,tsx}',
     './src/atoms/**/*.{js,ts,jsx,tsx}',
+    './src/test/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},

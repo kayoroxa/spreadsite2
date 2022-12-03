@@ -1,37 +1,43 @@
-'use client'
+import React, { useCallback, useState } from 'react'
 
-import { uniqueId } from 'lodash'
-import { Fragment, useCallback, useState } from 'react'
-// import layoutContext from '../context/LayoutContent'
-import WrapperDevEdit from '../organisms/WrapperDevEdit'
-import DropZone from '../test/DropZone'
+import DropZone from './DropZone'
 import {
   handleMoveSidebarComponentIntoParent,
   handleMoveToDifferentParent,
   handleMoveWithinParent,
-} from '../test/helpers'
-import initialData from '../test/initial-data'
-import Row from '../test/Row'
-import { _Item } from '../utils/@types/_Layout'
-import { COLUMN, COMPONENT, SIDEBAR_ITEM } from '../utils/constants'
+  handleRemoveItemFromLayout,
+} from './helpers'
+import initialData from './initial-data'
+import Row from './Row'
+import SideBarItem from './SideBarItem'
+import TrashDropZone from './TrashDropZone'
 
-export default function Page() {
-  // const { layout, setLayout } = useContext(layoutContext)
+import shortid from 'shortid'
+import { COLUMN, COMPONENT, SIDEBAR_ITEM, SIDEBAR_ITEMS } from './constants'
 
+const Container = () => {
   const initialLayout = initialData.layout
   const initialComponents = initialData.components
   const [layout, setLayout] = useState(initialLayout)
   const [components, setComponents] = useState(initialComponents)
 
+  const handleDropToTrashBin = useCallback(
+    (dropZone, item) => {
+      const splitItemPath = item.path.split('-')
+      setLayout(handleRemoveItemFromLayout(layout, splitItemPath))
+    },
+    [layout]
+  )
+
   const handleDrop = useCallback(
-    (dropZone: any, item: _Item) => {
+    (dropZone, item) => {
       console.log('dropZone', dropZone)
       console.log('item', item)
 
       const splitDropZonePath = dropZone.path.split('-')
       const pathToDropZone = splitDropZonePath.slice(0, -1).join('-')
 
-      const newItem: _Item = { id: item.id, type: item.type }
+      const newItem = { id: item.id, type: item.type }
       if (item.type === COLUMN) {
         newItem.children = item.children
       }
@@ -40,7 +46,7 @@ export default function Page() {
       if (item.type === SIDEBAR_ITEM) {
         // 1. Move sidebar item into page
         const newComponent = {
-          id: uniqueId('_'),
+          id: shortid.generate(),
           ...item.component,
         }
         const newItem = {
@@ -62,11 +68,11 @@ export default function Page() {
       }
 
       // move down here since sidebar items dont have path
-      const splitItemPath = item?.path?.split('-')
-      const pathToItem = splitItemPath?.slice(0, -1).join('-')
+      const splitItemPath = item.path.split('-')
+      const pathToItem = splitItemPath.slice(0, -1).join('-')
 
       // 2. Pure move (no create)
-      if (splitItemPath?.length === splitDropZonePath.length) {
+      if (splitItemPath.length === splitDropZonePath.length) {
         // 2.a. move within parent
         if (pathToItem === pathToDropZone) {
           setLayout(
@@ -101,7 +107,7 @@ export default function Page() {
     [layout, components]
   )
 
-  const renderRow = (row: any, currentPath: string) => {
+  const renderRow = (row, currentPath) => {
     return (
       <Row
         key={row.id}
@@ -113,46 +119,52 @@ export default function Page() {
     )
   }
 
+  // dont use index for key when mapping over items
+  // causes this issue - https://github.com/react-dnd/react-dnd/issues/342
   return (
-    <WrapperDevEdit>
-      <div className="flex flex-col gap-5">
-        {/* {Array(5)
-          .fill(false)
-          .map((_, id) => (
-            <ElementJS id={`js_${id}`} />
-          ))} */}
-        {/* {layout.map(l => l.Element)} */}
-        {/* <DropZone
-          data={{
-            path: '1',
-            childrenCount: layout.length,
-          }}
-          onDrop={handleDrop}
-          isLast={true}
-          className=""
-          // path={"1"}
-        />
-        {renderRow(row, currentPath)} */}
-
-        {layout.map((row, index) => {
-          const currentPath = `${index}`
-
-          return (
-            <Fragment key={row.id}>
-              <DropZone
-                data={{
-                  path: currentPath,
-                  childrenCount: layout.length,
-                }}
-                onDrop={handleDrop}
-                isLast={false}
-                className=""
-              />
-              {renderRow(row, currentPath)}
-            </Fragment>
-          )
-        })}
+    <div className="body">
+      <div className="sideBar">
+        {Object.values(SIDEBAR_ITEMS).map((sideBarItem, index) => (
+          <SideBarItem key={sideBarItem.id} data={sideBarItem} />
+        ))}
       </div>
-    </WrapperDevEdit>
+      <div className="pageContainer">
+        <div className="page">
+          {layout.map((row, index) => {
+            const currentPath = `${index}`
+
+            return (
+              <React.Fragment key={row.id}>
+                <DropZone
+                  data={{
+                    path: currentPath,
+                    childrenCount: layout.length,
+                  }}
+                  onDrop={handleDrop}
+                  path={currentPath}
+                />
+                {renderRow(row, currentPath)}
+              </React.Fragment>
+            )
+          })}
+          <DropZone
+            data={{
+              path: `${layout.length}`,
+              childrenCount: layout.length,
+            }}
+            onDrop={handleDrop}
+            isLast
+          />
+        </div>
+
+        <TrashDropZone
+          data={{
+            layout,
+          }}
+          onDrop={handleDropToTrashBin}
+        />
+      </div>
+    </div>
   )
 }
+export default Container
