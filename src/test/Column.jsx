@@ -1,11 +1,10 @@
 import classNames from 'classNames'
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useDrag } from 'react-dnd'
-import { TbLayoutAlignMiddle, TbLayoutAlignTop } from 'react-icons/tb'
-import { devContext } from '../organisms/WrapperDevEdit'
 import Component from './Component'
 import { COLUMN } from './constants'
 import DropZone from './DropZone'
+import useColumn from './UseColumn'
 
 const style = {}
 const Column = ({ data, components, handleDrop, path }) => {
@@ -38,28 +37,7 @@ const Column = ({ data, components, handleDrop, path }) => {
     )
   }
 
-  const [myStyle, setMyStyle] = useState({
-    justify: 'center',
-  })
-  const { setChildEdit } = useContext(devContext)
-
-  const handleClickColumn = useCallback(() => {
-    setChildEdit(
-      <div className="flex gap-3 w-full justify-center">
-        <TbLayoutAlignMiddle
-          size={35}
-          color={myStyle.justify === 'center' ? 'black' : 'black'}
-          onClick={() => setMyStyle(prev => ({ ...prev, justify: 'center' }))}
-        />
-
-        <TbLayoutAlignTop
-          size={35}
-          color={myStyle.justify !== 'center' ? 'black' : 'black'}
-          onClick={() => setMyStyle(prev => ({ ...prev, justify: 'start' }))}
-        />
-      </div>
-    )
-  }, [myStyle.justify])
+  const { myStyle, putEditParamsOnSideBar } = useColumn()
 
   return (
     <div
@@ -67,9 +45,10 @@ const Column = ({ data, components, handleDrop, path }) => {
       style={{ ...style, opacity }}
       className={classNames(
         'hover:cursor-move bg-blue-300/40 p-1 flex flex-col flex-auto relative text-black',
-        { 'justify-center': myStyle?.justify === 'center' }
+        { 'justify-center': myStyle?.justify === 'center' },
+        { 'items-center': myStyle?.items === 'center' }
       )}
-      onClick={() => handleClickColumn()}
+      onClick={() => putEditParamsOnSideBar()}
     >
       {/* <p className="absolute top-0 -mt-3 bg-green-200 px-3 text-sm opacity-25">
         {data.id}

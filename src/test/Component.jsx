@@ -52,7 +52,7 @@ const Component = ({ data, components, path }) => {
     <div
       ref={ref}
       // style={{ ...style, opacity }}
-      className="bg-zinc-700/20 relative "
+      className="bg-zinc-700/20 relative w-[50%] p-1"
     >
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">
         {data.id}

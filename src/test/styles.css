@@ -36,8 +36,10 @@ body {
 
 .dropZone {
   flex: 0 0 auto;
+  align-self: stretch;
   height: 10px;
   transition: 200ms all;
+  /* background-color: #00a2ff; */
 }
 
 .dropZone:nth-of-type(2n) {
