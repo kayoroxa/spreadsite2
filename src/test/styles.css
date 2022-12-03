@@ -49,9 +49,9 @@ body {
   height: auto;
 }
 
-.dropZone:not(.horizontalDrag).isLast {
+/* .dropZone:not(.horizontalDrag).isLast {
   flex: 1 1 auto;
-}
+} */
 
 .dropZone.active,
 .trashDropZone.active {

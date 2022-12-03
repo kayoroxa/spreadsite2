@@ -5,6 +5,7 @@ import { useDrag } from 'react-dnd'
 import { IoMdAddCircle } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
 import layoutContext from '../context/LayoutContent'
+import { devContext } from '../organisms/WrapperDevEdit'
 import SideBarItem from '../test/SideBarItem'
 import { SIDEBAR_ITEMS } from '../utils/constants'
 import ElementButton from './ElementButton'
@@ -47,6 +48,7 @@ function Card({ type }: { type: 'js' | 'button' }) {
 }
 
 function Edit() {
+  const { childEdit } = useContext(devContext)
   return (
     <section className="w-[20vw] bg-zinc-300 flex flex-col  items-start ">
       <header className="w-full flex gap-2 p-2 py-4 bg-zinc-600">
@@ -60,7 +62,7 @@ function Edit() {
           DB
         </div>
       </header>
-      <div className="flex flex-wrap gap-4 w-full p-6 "></div>
+      <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
     </section>
   )
 }
@@ -69,8 +71,8 @@ function Add() {
   return (
     <section className="w-[20vw] bg-zinc-300 flex p-6 gap-4 justify-center items-start">
       <div className="flex flex-wrap gap-4 w-full">
-        <Card type="js" />
-        <Card type="button" />
+        {/* <Card type="js" />
+        <Card type="button" /> */}
         {Object.values(SIDEBAR_ITEMS).map(sideBarItem => (
           <SideBarItem key={sideBarItem.id} data={sideBarItem} />
         ))}
@@ -80,7 +82,7 @@ function Add() {
 }
 
 export default function DevSideTools({ data }: any) {
-  const [show, setShow] = useState<'edit' | 'add' | false>('edit')
+  const [show, setShow] = useState<'edit' | 'add' | false>('add')
 
   const [{ opacity }, drag] = useDrag({
     item: data,

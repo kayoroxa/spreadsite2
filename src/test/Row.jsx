@@ -40,11 +40,11 @@ const Row = ({ data, components, handleDrop, path }) => {
     <div
       ref={ref}
       style={{ ...style, opacity }}
-      className="base draggable row relative"
+      className="relative bg-orange-300/40 hover:cursor-move"
     >
-      <p className="absolute top-0 bg-green-200 px-3 text-xs right-0 text-black z-20">
+      {/* <p className="absolute top-0 bg-green-200 px-3 text-xs right-0 text-black z-20 opacity-25">
         {data.id}
-      </p>
+      </p> */}
       <div className="columns  p-2 flex">
         {data.children.map((column, index) => {
           const currentPath = `${path}-${index}`
