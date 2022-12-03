@@ -29,9 +29,11 @@ const Component = ({ data, components, path }) => {
     <div
       ref={ref}
       // style={{ ...style, opacity }}
-      className="component draggable bg-black"
+      className=" draggable bg-zinc-700/20 text-black relative"
     >
-      <div>{data.id}</div>
+      <p className="absolute top-0 bg-green-200 px-3 text-xs right-0">
+        {data.id}
+      </p>
       <div>{component.content}</div>
     </div>
   )
