@@ -1,7 +1,11 @@
+import classNames from 'classnames'
 import { useRef } from 'react'
 import { useDrag } from 'react-dnd'
+import ElementButton from '../molecules/ElementButton'
 import ElementJS from '../molecules/ElementJS'
+import ElementTable from '../molecules/ElementTable'
 import { COMPONENT } from './constants'
+import useComponent from './UseComponent'
 
 const style = {
   border: '1px dashed black',
@@ -11,8 +15,9 @@ const style = {
 }
 
 function Content({ component }) {
+  console.log(component)
+  if (!component?.type) return <div>nothing</div>
   if (component.type === 'input') {
-    debugger
     return <ElementJS id={`js_${component.id.match(/\d+/)[0]}`} />
   }
   if (component.type === 'image') {
@@ -25,6 +30,13 @@ function Content({ component }) {
         />
       </div>
     )
+  }
+  if (component.type === 'phone') {
+    return <ElementButton name="Click Aqui" />
+  }
+
+  if (component.type === 'table') {
+    return <ElementTable id={component.id} />
   }
   return (
     <div className="h-8 bg-zinc-600 text-zinc-200">{component.content}</div>
@@ -48,16 +60,30 @@ const Component = ({ data, components, path }) => {
 
   const component = components[data.id]
 
+  const { myStyle, putEditParamsOnSideBar } = useComponent()
+
   return (
     <div
       ref={ref}
       // style={{ ...style, opacity }}
-      className="bg-zinc-700/20 relative w-[50%] p-1"
+      style={{ width: myStyle?.width + '%' }}
+      className={classNames(
+        'bg-zinc-700/20 relative w-full p-1',
+        { 'justify-self-center': myStyle?.justify === 'center' },
+        { 'self-center': myStyle?.items === 'center' }
+      )}
     >
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">
         {data.id}
       </p> */}
-      <div className="w-full">
+      <div
+        className={classNames('w-full')}
+        onClick={e => {
+          console.log('child')
+          e.stopPropagation()
+          putEditParamsOnSideBar()
+        }}
+      >
         <Content component={component} />
       </div>
     </div>

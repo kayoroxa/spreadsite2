@@ -48,7 +48,7 @@ function Card({ type }: { type: 'js' | 'button' }) {
 }
 
 function Edit() {
-  const { childEdit } = useContext(devContext)
+  const { childEdit, controls, setControls } = useContext(devContext)
   return (
     <section className="w-[20vw] bg-zinc-300 flex flex-col  items-start ">
       <header className="w-full flex gap-2 p-2 py-4 bg-zinc-600">
@@ -63,6 +63,25 @@ function Edit() {
         </div>
       </header>
       <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
+      <div className="flex flex-wrap gap-4 w-full p-6 text-black">
+        {Object.entries(controls).map(([id, c]) => {
+          if (c.type === 'textArea') {
+            return (
+              <textarea
+                defaultValue={String(c.value)}
+                className="w-full h-96"
+                onBlur={({ target }) =>
+                  setControls(prev => ({
+                    ...prev,
+                    [id]: { ...controls[id], value: target.value },
+                  }))
+                }
+              />
+            )
+          }
+          return <input />
+        })}
+      </div>
     </section>
   )
 }
@@ -82,7 +101,7 @@ function Add() {
 }
 
 export default function DevSideTools({ data }: any) {
-  const [show, setShow] = useState<'edit' | 'add' | false>('add')
+  const [show, setShow] = useState<'edit' | 'add' | false>('edit')
 
   const [{ opacity }, drag] = useDrag({
     item: data,

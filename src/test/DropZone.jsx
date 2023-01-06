@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import React from 'react'
 import { useDrop } from 'react-dnd'
 import { COLUMN, COMPONENT, ROW, SIDEBAR_ITEM } from './constants'
 
@@ -40,7 +39,7 @@ const DropZone = ({ data, onDrop, isLast, className }) => {
 
       // Invalid (Can't drop a parent element (row) into a child (column))
       const parentDropInChild = splitItemPath.length < splitDropZonePath.length
-      if (parentDropInChild) return false
+      // if (parentDropInChild) return false
 
       // Current item can't possible move to it's own location
       if (itemPath === dropZonePath) return false

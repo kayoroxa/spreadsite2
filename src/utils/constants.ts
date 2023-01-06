@@ -46,4 +46,12 @@ export const SIDEBAR_ITEMS = [
       content: 'Some image',
     },
   },
+  {
+    id: uniqueId('table_'),
+    type: SIDEBAR_ITEM,
+    component: {
+      type: 'table',
+      content: 'Some table',
+    },
+  },
 ]
