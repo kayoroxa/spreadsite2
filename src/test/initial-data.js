@@ -1,4 +1,3 @@
-import Column from './Column'
 import { COLUMN, COMPONENT, ROW } from './constants'
 
 const initialData = {
@@ -48,20 +47,16 @@ const initialData = {
       id: 'row1',
       children: [
         {
-          type: Column,
+          type: COLUMN,
           id: 'column2',
           children: [
             {
               type: COMPONENT,
-              id: 'component3',
+              id: 'component5',
             },
             {
               type: COMPONENT,
-              id: 'component0',
-            },
-            {
-              type: COMPONENT,
-              id: 'component2',
+              id: 'component5',
             },
           ],
         },
