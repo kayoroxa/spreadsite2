@@ -2,10 +2,12 @@ interface IProps {
   id: string
 }
 
-import { DataGrid } from '@mui/x-data-grid'
-import { useContext, useEffect, useState } from 'react'
+import { DataGrid as DataGridElement } from '@mui/x-data-grid'
+import { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { devContext } from '../organisms/WrapperDevEdit'
 import { convertJsonToTableData } from '../utils/tableFuncs'
+
+const DataGrid = memo(DataGridElement)
 
 const json: { [k: string]: string }[] = [
   {
@@ -38,7 +40,10 @@ export default function ElementTable({ id }: IProps) {
   const { setControls, controls } = useContext(devContext)
   const [jsonData, setJsonData] = useState(json)
 
-  const { rows, columns } = convertJsonToTableData(jsonData)
+  const { rows, columns } = useMemo(
+    () => convertJsonToTableData(jsonData),
+    [jsonData]
+  )
 
   function set() {
     setControls({
