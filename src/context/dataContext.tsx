@@ -12,6 +12,8 @@ export interface Data {
 export interface DataContext {
   data: Data
   setData: Dispatch<SetStateAction<Data>>
+  dataBase: any[]
+  setDataBase: Dispatch<SetStateAction<any[]>>
 }
 
 import { createContext, ReactNode, useState } from 'react'
@@ -30,14 +32,12 @@ type Section = {
   Children: ReactNode[]
 }
 
-type Layout = Section[]
-
 export function DataContextProvider({ children }: Props) {
   const [data, setData] = useState<Data>({})
-  const [layout, setLayout] = useState<Layout>([])
+  const [dataBase, setDataBase] = useState<any[]>([])
 
   return (
-    <dataContext.Provider value={{ data, setData }}>
+    <dataContext.Provider value={{ data, setData, dataBase, setDataBase }}>
       {children}
     </dataContext.Provider>
   )

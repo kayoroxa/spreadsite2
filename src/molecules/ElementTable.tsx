@@ -3,7 +3,8 @@ interface IProps {
 }
 
 import { DataGrid as DataGridElement } from '@mui/x-data-grid'
-import { memo, useContext, useEffect, useMemo, useState } from 'react'
+import { memo, useContext, useEffect, useState } from 'react'
+import dataContext from '../context/dataContext'
 import { devContext } from '../organisms/WrapperDevEdit'
 import { convertJsonToTableData } from '../utils/tableFuncs'
 
@@ -38,12 +39,84 @@ const json: { [k: string]: string }[] = [
 
 export default function ElementTable({ id }: IProps) {
   const { setControls, controls } = useContext(devContext)
-  const [jsonData, setJsonData] = useState(json)
+  const [columns, setColumns] = useState([
+    {
+      field: 'food',
+      headerName: 'food',
+      editable: true,
+    },
+    {
+      field: 'Kcal',
+      headerName: 'Kcal',
+      editable: true,
+    },
+    {
+      field: 'Carb',
+      headerName: 'Carb',
+      editable: true,
+    },
+    {
+      field: 'protein',
+      headerName: 'protein',
+      editable: true,
+    },
+    {
+      field: 'gordura',
+      headerName: 'gordura',
+      editable: true,
+    },
+    {
+      field: 'sódio',
+      headerName: 'sódio',
+      editable: true,
+    },
+  ])
 
-  const { rows, columns } = useMemo(
-    () => convertJsonToTableData(jsonData),
-    [jsonData]
-  )
+  const [rows, setRows] = useState([
+    {
+      id: 0,
+      food: 'ovo',
+      Kcal: '456',
+      Carb: '4',
+      protein: '45',
+      gordura: '4',
+      sódio: '46',
+    },
+    {
+      id: 1,
+      food: 'frango',
+      Kcal: '456',
+      Carb: '4',
+      protein: '45',
+      gordura: '4',
+      sódio: '46',
+    },
+    {
+      id: 2,
+      food: 'arroz',
+      Kcal: '456',
+      Carb: '4',
+      protein: '45',
+      gordura: '4',
+      sódio: '46',
+    },
+  ])
+
+  const [jsonData, setJsonData] = useState(json)
+  const { setDataBase } = useContext(dataContext)
+
+  // const { rows, columns } = useMemo(
+  //   () => convertJsonToTableData(jsonData),
+  //   [jsonData]
+  // )
+  console.log(convertJsonToTableData(jsonData))
+  // useEffect(() => {
+  //   setDataBase((prev) => {
+  //     const index = prev.findIndex(v => v.id === id)
+  //     prev[index] =
+  //     return prev
+  //   })
+  // }, [jsonData])
 
   function set() {
     setControls({
@@ -78,7 +151,13 @@ export default function ElementTable({ id }: IProps) {
         set()
       }}
     >
-      <DataGrid rows={rows} columns={columns} />
+      <div>{rows[0]?.Carb}</div>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        experimentalFeatures={{ newEditingApi: true }}
+        // onStateChange={v => setRows(v.rows.idRowsLookup)}
+      />
     </div>
   )
 }

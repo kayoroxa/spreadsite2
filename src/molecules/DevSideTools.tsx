@@ -1,51 +1,12 @@
 'use client'
 
-import { useContext, useState } from 'react'
-import { useDrag } from 'react-dnd'
+import { useContext } from 'react'
+import { FaDatabase } from 'react-icons/fa'
 import { IoMdAddCircle } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
-import layoutContext from '../context/LayoutContent'
 import { devContext } from '../organisms/WrapperDevEdit'
 import SideBarItem from '../test/SideBarItem'
 import { SIDEBAR_ITEMS } from '../utils/constants'
-import ElementButton from './ElementButton'
-import ElementJS from './ElementJS'
-
-function Card({ type }: { type: 'js' | 'button' }) {
-  const { setLayout } = useContext(layoutContext)
-
-  return (
-    <div
-      className="bg-zinc-200 w-72 flex flex-col justify-center items-center rounded-lg p-2 text-zinc-700 flex-1 hover:cursor-pointer hover:text-blue-500"
-      onClick={() => {
-        setLayout(prev => {
-          if (type === 'js') {
-            return [
-              ...prev,
-              {
-                id: 'id',
-                key: prev.length + 1,
-                Element: <ElementJS id={'js_' + (prev.length + 1)} />,
-              },
-            ]
-          } else {
-            return [
-              ...prev,
-              {
-                id: 'id',
-                key: prev.length + 1,
-                Element: <ElementButton name={String(prev.length + 1)} />,
-              },
-            ]
-          }
-        })
-      }}
-    >
-      <IoMdAddCircle size={20} />
-      <p>{type}</p>
-    </div>
-  )
-}
 
 function Edit() {
   const { childEdit, controls, setControls } = useContext(devContext)
@@ -57,9 +18,6 @@ function Edit() {
         </div>
         <div className="flex-1 bg-zinc-300/80 text-black text-center px-4 py-2 rounded-lg hover:cursor-pointer">
           Child
-        </div>
-        <div className="flex-1 bg-zinc-300/80 text-black text-center px-4 py-2 rounded-lg hover:cursor-pointer">
-          DB
         </div>
       </header>
       <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
@@ -100,43 +58,49 @@ function Add() {
   )
 }
 
-export default function DevSideTools({ data }: any) {
-  const [show, setShow] = useState<'edit' | 'add' | false>('edit')
-
-  const [{ opacity }, drag] = useDrag({
-    item: data,
-    type: 'a',
-    collect: monitor => ({
-      opacity: monitor.isDragging() ? 0.4 : 1,
-    }),
-  })
+export default function DevSideTools({}: any) {
+  const { editionMode, setEditionMode } = useContext(devContext)
 
   return (
     <div className="h-screen bg-purple-800 flex">
       <section className="flex flex-col gap-4 p-4">
         <div
-          onClick={() => setShow(prev => (prev === 'add' ? false : 'add'))}
+          onClick={() =>
+            setEditionMode(prev => (prev === 'add' ? false : 'add'))
+          }
           className={'hover:cursor-pointer'}
         >
           <IoMdAddCircle
             size={30}
-            color={show === 'add' ? 'rgb(59 130 246)' : undefined}
+            color={editionMode === 'add' ? 'rgb(59 130 246)' : undefined}
           />
           Add
         </div>
         <div
-          onClick={() => setShow(prev => (prev === 'edit' ? false : 'edit'))}
+          onClick={() =>
+            setEditionMode(prev => (prev === 'edit' ? false : 'edit'))
+          }
           className="hover:cursor-pointer"
         >
           <MdEdit
             size={30}
-            color={show === 'edit' ? 'rgb(59 130 246)' : undefined}
+            color={editionMode === 'edit' ? 'rgb(59 130 246)' : undefined}
           />
           Edit
         </div>
+        <div
+          onClick={() => setEditionMode(prev => (prev === 'db' ? false : 'db'))}
+          className="hover:cursor-pointer"
+        >
+          <FaDatabase
+            size={30}
+            color={editionMode === 'db' ? 'rgb(59 130 246)' : undefined}
+          />
+          DB
+        </div>
       </section>
-      {show === 'add' && <Add />}
-      {show === 'edit' && <Edit />}
+      {editionMode === 'add' && <Add />}
+      {editionMode === 'edit' && <Edit />}
     </div>
   )
 }

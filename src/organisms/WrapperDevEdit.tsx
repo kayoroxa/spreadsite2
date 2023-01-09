@@ -18,6 +18,8 @@ interface _Context {
   controls: _Controls
   setControls: Dispatch<SetStateAction<_Controls>>
   setChildEdit: Dispatch<SetStateAction<ReactNode>>
+  editionMode: false | 'edit' | 'add' | 'db'
+  setEditionMode: Dispatch<SetStateAction<false | 'edit' | 'add' | 'db'>>
 }
 
 export const devContext = createContext<_Context>({} as _Context)
@@ -25,12 +27,22 @@ export const devContext = createContext<_Context>({} as _Context)
 export default function WrapperDevEdit({ children, className }: Props) {
   const [childEdit, setChildEdit] = useState<ReactNode>()
   const [controls, setControls] = useState<_Controls>({} as _Controls)
+  const [editionMode, setEditionMode] = useState<'edit' | 'add' | 'db' | false>(
+    'db'
+  )
   // const [controlsValues, setControlsValues] = useState<_Control[]>()
 
   return (
     <div className="flex bg-zinc-900">
       <devContext.Provider
-        value={{ childEdit, setChildEdit, controls, setControls }}
+        value={{
+          childEdit,
+          setChildEdit,
+          controls,
+          setControls,
+          editionMode,
+          setEditionMode,
+        }}
       >
         <DevSideTools />
         <main className={'overflow-auto max-h-screen w-full p-4 '}>

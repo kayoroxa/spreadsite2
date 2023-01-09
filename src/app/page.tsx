@@ -1,20 +1,7 @@
 'use client'
 
-import SessionApp from '../molecules/SessionApp'
-// import layoutContext from '../context/LayoutContent'
-import WrapperDevEdit from '../organisms/WrapperDevEdit'
-import useApp from '../utils/useApp'
+import PageEdition from '../template/PageEdition'
 
 export default function Page() {
-  const { layout, handleDrop, renderRow } = useApp()
-
-  return (
-    <WrapperDevEdit>
-      <SessionApp
-        layout={layout}
-        handleDrop={handleDrop}
-        renderRow={renderRow}
-      />
-    </WrapperDevEdit>
-  )
+  return <PageEdition />
 }

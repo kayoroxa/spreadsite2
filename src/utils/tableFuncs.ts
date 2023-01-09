@@ -20,6 +20,7 @@ export function convertJsonToTableData(
   const columns = uniqKeys.map(keyName => ({
     field: keyName,
     headerName: keyName,
+    editable: true,
   }))
 
   return {
