@@ -12,11 +12,12 @@ export interface Data {
 export interface DataContext {
   data: Data
   setData: Dispatch<SetStateAction<Data>>
-  dataBase: any[]
-  setDataBase: Dispatch<SetStateAction<any[]>>
+  dataBase: _DataBase[]
+  setDataBase: Dispatch<SetStateAction<_DataBase[]>>
 }
 
 import { createContext, ReactNode, useState } from 'react'
+import { _DataBase } from '../utils/@types/_DataBase'
 
 const dataContext = createContext({} as DataContext)
 
@@ -34,7 +35,7 @@ type Section = {
 
 export function DataContextProvider({ children }: Props) {
   const [data, setData] = useState<Data>({})
-  const [dataBase, setDataBase] = useState<any[]>([])
+  const [dataBase, setDataBase] = useState<_DataBase[]>([])
 
   return (
     <dataContext.Provider value={{ data, setData, dataBase, setDataBase }}>
