@@ -43,7 +43,7 @@ function Table({ dbID }: { dbID: string }) {
       <table className="table table-auto w-full">
         <thead>
           <tr>
-            {Object.keys(data).map(v => (
+            {Object.keys(data[0]).map(v => (
               <th>{v}</th>
             ))}
           </tr>
