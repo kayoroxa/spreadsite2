@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
-function Button({ text, onClick }: { text: string; onClick: () => any }) {
+function Button({ text, onClick }: { text: string; onClick?: () => any }) {
   return (
     <button
       onClick={onClick}
@@ -84,7 +84,17 @@ function Table({ dbID }: { dbID: string }) {
 }
 
 export default function SessionDB() {
-  // const { editionMode } = useContext(devContext)
+  const { setDataBase } = useContext(dataContext)
+  const [tableId, setTableId] = useState('784')
+
+  function handleNewCategory(categoryName: string) {
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      const index = newPrev.findIndex(v => v.id === tableId)
+      newPrev[index].data[0][categoryName] = ''
+      return newPrev
+    })
+  }
 
   return (
     <>
@@ -94,10 +104,10 @@ export default function SessionDB() {
         </div>
         <div className="ml-auto flex gap-5">
           <Button text="new line" />
-          <Button text="new category" />
+          <Button text="new category" onClick={() => handleNewCategory} />
         </div>
       </header>
-      <Table dbID="784" />
+      <Table dbID={tableId} />
       {/* <ElementTable id={'haha'} /> */}
     </>
   )
