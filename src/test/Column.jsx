@@ -44,7 +44,7 @@ const Column = ({ data, components, handleDrop, path }) => {
       ref={ref}
       style={{ ...style, opacity }}
       className={classNames(
-        'hover:cursor-move bg-blue-300/40 p-1 flex flex-col flex-auto relative text-black',
+        ' bg-blue-300/40 p-1 flex flex-col flex-auto relative text-black',
         { 'justify-center': myStyle?.justify === 'center' },
         { 'items-center': myStyle?.items === 'center' }
       )}

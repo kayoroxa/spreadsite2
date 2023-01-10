@@ -72,7 +72,7 @@ export default function ElementJS({ id }: Props) {
       </label> */}
       {!showRaw && (
         <div
-          className="dark:bg-gray-700 p-2.5"
+          className="dark:bg-gray-700 p-2.5 hover:cursor-pointer"
           onClick={() => setShowRaw(true)}
         >
           {scriptEval || '_'}

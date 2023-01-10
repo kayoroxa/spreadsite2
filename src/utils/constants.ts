@@ -54,4 +54,12 @@ export const SIDEBAR_ITEMS = [
       content: 'Some table',
     },
   },
+  {
+    id: uniqueId('video_'),
+    type: SIDEBAR_ITEM,
+    component: {
+      type: 'video',
+      content: 'Some video',
+    },
+  },
 ]

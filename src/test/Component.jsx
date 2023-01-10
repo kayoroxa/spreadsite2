@@ -1,21 +1,17 @@
 import classNames from 'classnames'
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { useDrag } from 'react-dnd'
+import dataContext from '../context/dataContext'
 import ElementButton from '../molecules/ElementButton'
 import ElementJS from '../molecules/ElementJS'
 import ElementTable from '../molecules/ElementTable'
+import Video from '../molecules/Video'
 import { COMPONENT } from './constants'
 import useComponent from './UseComponent'
 
-const style = {
-  border: '1px dashed black',
-  padding: '0.5rem 1rem',
-  // backgroundColor: 'white',
-  cursor: 'move',
-}
-
 function Content({ component }) {
-  console.log(component)
+  const { dataBase } = useContext(dataContext)
+
   if (!component?.type) return <div>nothing</div>
   if (component.type === 'input') {
     return <ElementJS id={`js_${component.id.match(/\d+/)[0]}`} />
@@ -25,11 +21,17 @@ function Content({ component }) {
       <div className="w-full flex-1 flex">
         <img
           className="w-[50px] flex-auto"
-          src="https://services.meteored.com/img/article/telescopio-webb-capta-con-muy-alta-resolucion-a-los-pilares-de-la-creacion-1667393426739_768.png"
+          src={
+            dataBase[0]?.data[0]['fullName'] ||
+            'https://services.meteored.com/img/article/telescopio-webb-capta-con-muy-alta-resolucion-a-los-pilares-de-la-creacion-1667393426739_768.png'
+          }
           alt=""
         />
       </div>
     )
+  }
+  if (component.type === 'video') {
+    return <Video id="asd" />
   }
   if (component.type === 'phone') {
     return <ElementButton name="Click Aqui" />
@@ -73,6 +75,9 @@ const Component = ({ data, components, path }) => {
         { 'self-center': myStyle?.items === 'center' }
       )}
     >
+      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-6 text-zinc-100 drag">
+        DRAG
+      </div>
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">
         {data.id}
       </p> */}

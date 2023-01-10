@@ -46,4 +46,12 @@ export const SIDEBAR_ITEMS = [
       content: 'Some image',
     },
   },
+  {
+    id: uniqueId('video_'),
+    type: SIDEBAR_ITEM,
+    component: {
+      type: 'video',
+      content: 'Some video',
+    },
+  },
 ]

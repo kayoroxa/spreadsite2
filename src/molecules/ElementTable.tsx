@@ -149,7 +149,7 @@ export default function ElementTable({ id }: IProps) {
         set()
       }}
     >
-      <div>{rows[0]?.Carb}</div>
+      {/* <div>{rows[0]?.Carb}</div> */}
       <DataGrid
         rows={rows}
         columns={columns}

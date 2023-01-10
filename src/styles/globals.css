@@ -50,3 +50,18 @@ form td:last-child {
 form * {
   font-size: 28px;
 }
+
+/* component */
+
+.drag {
+  position: absolute;
+  top: -15px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+div:hover > .drag {
+  opacity: 1;
+  cursor: move;
+  pointer-events: all;
+}

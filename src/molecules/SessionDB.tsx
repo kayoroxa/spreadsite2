@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
@@ -43,11 +43,11 @@ function Table({ dbID }: { dbID: string }) {
 
   return (
     <div>
-      <table className="table table-auto w-full">
+      <table className="table table-auto max-w-full overflow-auto">
         <thead>
           <tr>
             {Object.keys(data[0]).map(v => (
-              <th>{v}</th>
+              <th className="text-xl">{v}</th>
             ))}
           </tr>
         </thead>
@@ -56,6 +56,7 @@ function Table({ dbID }: { dbID: string }) {
             <tr>
               {Object.entries(line).map(([category, value]) => (
                 <td
+                  className="text-xl"
                   contentEditable={true}
                   onBlur={({ target }) =>
                     handleEdit(lineIndex, category, target?.textContent || '')
@@ -79,7 +80,7 @@ function Table({ dbID }: { dbID: string }) {
           ))}
         </tbody>
       </table>
-      <div>{JSON.stringify(dataBase[0])}</div>
+      {/* <div>{JSON.stringify(dataBase[0])}</div> */}
     </div>
   )
 }
@@ -101,18 +102,21 @@ export default function SessionDB() {
     })
   }
 
-  function handleAddLine(
-    lineIndex?: number,
-    category?: string,
-    value?: string
-  ) {
+  const handleAddLine = () => {
     setDataBase(prev => {
       const newPrev = [...prev]
       const index = newPrev.findIndex(v => v.id === tableId)
-      newPrev[index].data.push({})
+      const last = newPrev[index].data.slice(-1)[0]
+      if (Object.values(last)[0] !== '') {
+        const keys = Object.keys(newPrev[index].data[0])
+        const entries = keys.map(k => [k, ''])
+
+        newPrev[index].data.push(Object.fromEntries(entries))
+      }
       return newPrev
     })
   }
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <>
@@ -121,10 +125,36 @@ export default function SessionDB() {
           Database: <strong>Tabela nutricional</strong>
         </div>
         <div className="ml-auto flex gap-5">
-          <Button onClick={() => handleAddLine()} text="new line" />
           <Button
-            text="new category"
-            onClick={() => handleNewCategory('new')}
+            onClick={() => {
+              handleAddLine()
+            }}
+            text="new line"
+          />
+
+          <input
+            ref={inputRef}
+            className="bg-zinc-900"
+            type="text"
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                handleNewCategory(e.currentTarget.value)
+                e.currentTarget.value = ''
+              }
+            }}
+          />
+          <Button
+            text="Add category"
+            onClick={() => {
+              const value = inputRef.current?.value
+              if (value) {
+                handleNewCategory(value)
+                inputRef.current.value = ''
+              } else {
+                inputRef?.current?.focus()
+              }
+            }}
           />
         </div>
       </header>
