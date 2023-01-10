@@ -37,14 +37,7 @@ function Table({ dbID }: { dbID: string }) {
     })
   }
 
-  function handleAddLine(lineIndex: number, category: string, value: string) {
-    setDataBase(prev => {
-      const newPrev = [...prev]
-      const index = newPrev.findIndex(v => v.id === dbID)
-      newPrev[index].data.push({})
-      return newPrev
-    })
-  }
+
 
   const data = dataBase[0]?.data
 
@@ -107,6 +100,15 @@ export default function SessionDB() {
     })
   }
 
+  function handleAddLine(lineIndex?: number, category?: string, value?: string) {
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      const index = newPrev.findIndex(v => v.id === tableId)
+      newPrev[index].data.push({})
+      return newPrev
+    })
+  }
+
   return (
     <>
       <header className="flex w-full items-center  gap-5 py-2 px-4">
@@ -114,7 +116,7 @@ export default function SessionDB() {
           Database: <strong>Tabela nutricional</strong>
         </div>
         <div className="ml-auto flex gap-5">
-          <Button onClick={handleAddLine()} text="new line" />
+          <Button onClick={() => handleAddLine()} text="new line" />
           <Button
             text="new category"
             onClick={() => handleNewCategory('new')}
