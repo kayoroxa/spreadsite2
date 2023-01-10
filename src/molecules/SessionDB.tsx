@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
-function Button({ text }: { text: string }) {
+function Button({ text, onclick }: { text: string; onclick?: string }) {
   return (
     <button className="bg-zinc-600 hover:bg-zinc-500 text-white-800 font-bold py-2 px-4 rounded">
       {text}
@@ -33,6 +33,25 @@ function Table({ dbID }: { dbID: string }) {
     })
   }
 
+  function handleAddLine(lineIndex: number, category: string, value: string) {
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      const index = newPrev.findIndex(v => v.id === dbID)
+      newPrev[index].data.push({})
+      return newPrev
+    })
+  }
+
+  function handleAddCategory(lineIndex: number, category: string, value: string) {
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      const index = newPrev.findIndex(v => v.id === dbID)
+      const newCategory = 
+      newPrev[index].data.[lineIndex][0] = newCategory
+
+      return newPrev
+    })
+  }
   const data = dataBase[0]?.data
 
   if (!data) return <div>loading</div>
@@ -90,7 +109,7 @@ export default function SessionDB() {
           Database: <strong>Tabela nutricional</strong>
         </div>
         <div className="ml-auto flex gap-5">
-          <Button text="new line" />
+          <Button onclick="handleAddLine()" text="new line" />
           <Button text="new category" />
         </div>
       </header>
