@@ -3,6 +3,7 @@ import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
 function Button({ text, onClick }: { text: string; onClick?: () => any }) {
+function Button({ text, onClick }: { text: string; onClick?: () => any }) {
   return (
     <button
       onClick={onClick}
@@ -33,6 +34,15 @@ function Table({ dbID }: { dbID: string }) {
       const index = newPrev.findIndex(v => v.id === dbID)
       newPrev[index].data[lineIndex][category] = value
 
+      return newPrev
+    })
+  }
+
+  function handleAddLine(lineIndex: number, category: string, value: string) {
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      const index = newPrev.findIndex(v => v.id === dbID)
+      newPrev[index].data.push({})
       return newPrev
     })
   }
@@ -108,7 +118,7 @@ export default function SessionDB() {
           Database: <strong>Tabela nutricional</strong>
         </div>
         <div className="ml-auto flex gap-5">
-          <Button text="new line" />
+          <Button onClick={handleAddLine()} text="new line" />
           <Button
             text="new category"
             onClick={() => handleNewCategory('new')}
