@@ -90,6 +90,7 @@ export default function SessionDB() {
   function handleNewCategory(categoryName: string) {
     setDataBase(prev => {
       const newPrev = [...prev]
+      debugger
       const index = newPrev.findIndex(v => v.id === tableId)
       newPrev[index].data[0][categoryName] = ''
       return newPrev
@@ -104,7 +105,10 @@ export default function SessionDB() {
         </div>
         <div className="ml-auto flex gap-5">
           <Button text="new line" />
-          <Button text="new category" onClick={() => handleNewCategory} />
+          <Button
+            text="new category"
+            onClick={() => handleNewCategory('new')}
+          />
         </div>
       </header>
       <Table dbID={tableId} />
