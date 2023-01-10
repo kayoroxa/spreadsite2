@@ -3,7 +3,6 @@ import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
 function Button({ text, onClick }: { text: string; onClick?: () => any }) {
-function Button({ text, onClick }: { text: string; onClick?: () => any }) {
   return (
     <button
       onClick={onClick}
@@ -37,8 +36,6 @@ function Table({ dbID }: { dbID: string }) {
       return newPrev
     })
   }
-
-
 
   const data = dataBase[0]?.data
 
@@ -104,7 +101,11 @@ export default function SessionDB() {
     })
   }
 
-  function handleAddLine(lineIndex?: number, category?: string, value?: string) {
+  function handleAddLine(
+    lineIndex?: number,
+    category?: string,
+    value?: string
+  ) {
     setDataBase(prev => {
       const newPrev = [...prev]
       const index = newPrev.findIndex(v => v.id === tableId)
