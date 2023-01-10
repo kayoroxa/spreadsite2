@@ -2,9 +2,12 @@ import { useContext, useEffect } from 'react'
 import dataContext from '../context/dataContext'
 import initial from '../utils/mock-data.json'
 
-function Button({ text }: { text: string }) {
+function Button({ text, onClick }: { text: string; onClick: () => any }) {
   return (
-    <button className="bg-zinc-600 hover:bg-zinc-500 text-white-800 font-bold py-2 px-4 rounded">
+    <button
+      onClick={onClick}
+      className="bg-zinc-600 hover:bg-zinc-500 text-white-800 font-bold py-2 px-4 rounded"
+    >
       {text}
     </button>
   )
