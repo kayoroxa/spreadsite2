@@ -33,6 +33,7 @@ function Table({ dbID }: { dbID: string }) {
       const newPrev = [...prev]
       const index = newPrev.findIndex(v => v.id === dbID)
       newPrev[index].data[lineIndex][category] = value
+
       return newPrev
     })
   }
@@ -95,7 +96,10 @@ export default function SessionDB() {
       const newPrev = [...prev]
       debugger
       const index = newPrev.findIndex(v => v.id === tableId)
-      newPrev[index].data[0][categoryName] = ''
+      newPrev[index].data = newPrev[index].data.map(line => ({
+        ...line,
+        [categoryName]: '',
+      }))
       return newPrev
     })
   }
