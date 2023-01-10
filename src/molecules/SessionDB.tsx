@@ -17,8 +17,8 @@ function Table({ dbID }: { dbID: string }) {
   const { dataBase, setDataBase } = useContext(dataContext)
 
   useEffect(() => {
-    const index = dataBase.findIndex(v => v.id === dbID)
-    if (!dataBase[index]) {
+    const myDataBase = dataBase.find(v => v.id === dbID)
+    if (!myDataBase) {
       setDataBase(prev => {
         const newPrev = [...prev]
         newPrev.push({ id: dbID, name: 'tabela nutricional', data: initial })
@@ -43,7 +43,6 @@ function Table({ dbID }: { dbID: string }) {
 
   return (
     <div>
-      <div>{JSON.stringify(dataBase)}</div>
       <table className="table table-auto w-full">
         <thead>
           <tr>
@@ -80,6 +79,7 @@ function Table({ dbID }: { dbID: string }) {
           ))}
         </tbody>
       </table>
+      <div>{JSON.stringify(dataBase[0])}</div>
     </div>
   )
 }
