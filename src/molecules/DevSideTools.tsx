@@ -5,44 +5,10 @@ import { FaDatabase } from 'react-icons/fa'
 import { IoMdAddCircle } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
 import { devContext } from '../organisms/WrapperDevEdit'
+
 import SideBarItem from '../test/SideBarItem'
 import { SIDEBAR_ITEMS } from '../utils/constants'
-
-function Edit() {
-  const { childEdit, controls, setControls } = useContext(devContext)
-  return (
-    <section className="w-[20vw] bg-zinc-300 flex flex-col  items-start ">
-      <header className="w-full flex gap-2 p-2 py-4 bg-zinc-600">
-        <div className="flex-1   bg-zinc-300/80 text-black text-center px-4 py-2 rounded-lg hover:cursor-pointer">
-          CSS
-        </div>
-        <div className="flex-1 bg-zinc-300/80 text-black text-center px-4 py-2 rounded-lg hover:cursor-pointer">
-          Child
-        </div>
-      </header>
-      <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
-      <div className="flex flex-wrap gap-4 w-full p-6 text-black">
-        {Object.entries(controls).map(([id, c]) => {
-          if (c.type === 'textArea') {
-            return (
-              <textarea
-                defaultValue={String(c.value)}
-                className="w-full h-96"
-                onBlur={({ target }) =>
-                  setControls(prev => ({
-                    ...prev,
-                    [id]: { ...controls[id], value: target.value },
-                  }))
-                }
-              />
-            )
-          }
-          return <input />
-        })}
-      </div>
-    </section>
-  )
-}
+import Edit from './Edit'
 
 function Add() {
   return (
