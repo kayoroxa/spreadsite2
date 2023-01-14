@@ -21,9 +21,6 @@ export default function useApp() {
 
   const handleDrop = useCallback(
     (dropZone: any, item: _Item) => {
-      console.log('dropZone', dropZone)
-      console.log('item', item)
-
       const splitDropZonePath = dropZone.path.split('-')
       const pathToDropZone = splitDropZonePath.slice(0, -1).join('-')
 

@@ -5,7 +5,11 @@ export type _Control = {
 }
 
 export type _Controls = {
-  [id: string]: { type: 'textArea' | 'input'; value: unknown }
+  [id: string]: {
+    type: 'textArea' | 'input'
+    value: unknown
+    elementType: 'video' | 'input' | 'image'
+  }
 }
 
 export type _ControlsValues = {

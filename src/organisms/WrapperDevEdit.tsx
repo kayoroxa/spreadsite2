@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react'
 import DevSideTools from '../molecules/DevSideTools'
+import useToolKitStore from '../store/useToolKitStore'
 import { _Controls } from '../utils/@types/_DevEdit'
 
 interface Props {
@@ -26,9 +27,10 @@ export const devContext = createContext<_Context>({} as _Context)
 
 export default function WrapperDevEdit({ children, className }: Props) {
   const [childEdit, setChildEdit] = useState<ReactNode>()
-  const [controls, setControls] = useState<_Controls>({} as _Controls)
+  const controls = useToolKitStore(state => state.controls)
+  const [, setControls] = useState<_Controls>({} as _Controls)
   const [editionMode, setEditionMode] = useState<'edit' | 'add' | 'db' | false>(
-    'db'
+    'add'
   )
   // const [controlsValues, setControlsValues] = useState<_Control[]>()
 

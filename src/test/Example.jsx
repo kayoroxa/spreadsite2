@@ -5,7 +5,7 @@ import {
   handleMoveSidebarComponentIntoParent,
   handleMoveToDifferentParent,
   handleMoveWithinParent,
-  handleRemoveItemFromLayout,
+  handleRemoveItemFromLayout
 } from './helpers'
 import initialData from './initial-data'
 import Row from './Row'
@@ -31,8 +31,6 @@ const Container = () => {
 
   const handleDrop = useCallback(
     (dropZone, item) => {
-      console.log('dropZone', dropZone)
-      console.log('item', item)
 
       const splitDropZonePath = dropZone.path.split('-')
       const pathToDropZone = splitDropZonePath.slice(0, -1).join('-')

@@ -12,11 +12,11 @@ const initialData = {
           children: [
             {
               type: COMPONENT,
-              id: 'component5',
+              id: 'component0',
             },
             {
               type: COMPONENT,
-              id: 'component0',
+              id: 'component6',
             },
             {
               type: COMPONENT,
@@ -49,16 +49,7 @@ const initialData = {
         {
           type: COLUMN,
           id: 'column2',
-          children: [
-            {
-              type: COMPONENT,
-              id: 'component5',
-            },
-            {
-              type: COMPONENT,
-              id: 'component5',
-            },
-          ],
+          children: [],
         },
       ],
     },
@@ -70,6 +61,7 @@ const initialData = {
     component3: { id: 'component3', type: 'name', content: 'Some name' },
     component4: { id: 'component4', type: 'phone', content: 'Some phone' },
     component5: { id: 'component5', type: 'table', content: 'Some data' },
+    component6: { id: 'component6', type: 'video', content: 'Some data' },
   },
 }
 

@@ -1,31 +1,63 @@
-import { useContext, useEffect, useState } from 'react'
-import { devContext } from '../organisms/WrapperDevEdit'
+import { useEffect, useMemo, useState } from 'react'
+import useElementStore from '../store/useElementStore'
+import useToolKitStore from '../store/useToolKitStore'
+import { _Controls } from '../utils/@types/_DevEdit'
 
 export default function Video({ id }: { id: string }) {
-  const { setControls } = useContext(devContext)
-  const [src, setSrc] = useState('S-LcW_jy-e8')
+  // const { controls } = useContext(devContext)
+  const [isFocus, setIsFocus] = useState(false)
+  const [isViewer, setIsViewer] = useState(true)
 
-  useEffect(() => {
-    setControls({
+  const mudar = useToolKitStore(state => state.setControls)
+  const elementIdSelected = useToolKitStore(state => state.elementIdSelected)
+  const videos = useElementStore(state => state.componentsData.videos)
+
+  const myInfo = useMemo(() => {
+    return videos.find(v => v.id === id)
+  }, [videos])
+
+  function set() {
+    const config: _Controls = {
       [id]: {
         type: 'textArea',
-        value: JSON.stringify(src, null, 2),
+        elementType: 'video',
+        value: myInfo?.src || 'S-LcW_jy-e8',
       },
-    })
-  }, [])
+    }
+    mudar(config)
+  }
+
+  useEffect(() => {
+    if (elementIdSelected === id) set()
+  }, [elementIdSelected])
 
   return (
-    <div className="w-full flex-1 flex">
-      <div className="relative pb-[56.25%] h-0 w-full">
-        <iframe
-          className="top-0 left-0 absolute w-full h-full"
-          src={`https://www.youtube.com/embed/${src}`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen={true}
-        ></iframe>
-      </div>
+    <div
+      className="w-full flex-1 flex"
+      onClick={set}
+      onBlur={() => setIsFocus(false)}
+    >
+      {/* <div>{myInfo?.src || 's'}</div> */}
+      {isViewer && (
+        <div className="relative pb-[56.25%] h-0 w-full">
+          <iframe
+            className="top-0 left-0 absolute w-full h-full"
+            src={`https://www.youtube.com/embed/${
+              myInfo?.src || 'S-LcW_jy-e8'
+            }`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen={true}
+          ></iframe>
+        </div>
+      )}
+
+      {!isViewer && (
+        <div className="relative pb-[56.25%] h-0 w-full flex">
+          <div>video - id: {id}</div>
+        </div>
+      )}
     </div>
   )
 }

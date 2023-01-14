@@ -1,11 +1,14 @@
 import classNames from 'classnames'
 import { useContext, useRef } from 'react'
 import { useDrag } from 'react-dnd'
+import { AiOutlineDrag } from 'react-icons/ai'
+import { FiEdit } from 'react-icons/fi'
 import dataContext from '../context/dataContext'
 import ElementButton from '../molecules/ElementButton'
 import ElementJS from '../molecules/ElementJS'
 import ElementTable from '../molecules/ElementTable'
 import Video from '../molecules/Video'
+import useToolKitStore from '../store/useToolKitStore'
 import { COMPONENT } from './constants'
 import useComponent from './UseComponent'
 
@@ -31,7 +34,7 @@ function Content({ component }) {
     )
   }
   if (component.type === 'video') {
-    return <Video id="asd" />
+    return <Video id={component.id} />
   }
   if (component.type === 'phone') {
     return <ElementButton name="Click Aqui" />
@@ -64,6 +67,11 @@ const Component = ({ data, components, path }) => {
 
   const { myStyle, putEditParamsOnSideBar } = useComponent()
 
+  const putElementIdSelected = useToolKitStore(
+    store => store.putElementIdSelected
+  )
+  const putEditionMode = useToolKitStore(store => store.putEditionMode)
+
   return (
     <div
       ref={ref}
@@ -75,8 +83,16 @@ const Component = ({ data, components, path }) => {
         { 'self-center': myStyle?.items === 'center' }
       )}
     >
-      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-6 text-zinc-100 drag">
-        DRAG
+      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-6 text-zinc-100  flex gap-5 label ">
+        <AiOutlineDrag size={20} className="hover:cursor-pointer" />
+        <FiEdit
+          size={20}
+          className="hover:cursor-pointer"
+          onClick={() => {
+            putElementIdSelected(component.id)
+            putEditionMode('edit')
+          }}
+        />
       </div>
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">
         {data.id}
@@ -84,7 +100,6 @@ const Component = ({ data, components, path }) => {
       <div
         className={classNames('w-full')}
         onClick={e => {
-          console.log('child')
           e.stopPropagation()
           putEditParamsOnSideBar()
         }}

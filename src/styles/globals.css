@@ -53,15 +53,20 @@ form * {
 
 /* component */
 
-.drag {
+.label {
   position: absolute;
-  top: -15px;
+  top: -6px;
   opacity: 0;
-  pointer-events: none;
+  /* cursor: pointer !important; */
+  /* pointer-events: none; */
 }
 
-div:hover > .drag {
+div:hover > .label, .label:hover {
   opacity: 1;
+  
+}
+
+div:hover > .drag, .drag:hover {
   cursor: move;
   pointer-events: all;
 }

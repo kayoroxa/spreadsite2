@@ -5,7 +5,6 @@ interface IProps {
 import { DataGrid as DataGridElement } from '@mui/x-data-grid'
 import { memo, useContext, useEffect, useState } from 'react'
 import { devContext } from '../organisms/WrapperDevEdit'
-import { convertJsonToTableData } from '../utils/tableFuncs'
 
 const DataGrid = memo(DataGridElement)
 
@@ -107,7 +106,6 @@ export default function ElementTable({ id }: IProps) {
   //   () => convertJsonToTableData(jsonData),
   //   [jsonData]
   // )
-  console.log(convertJsonToTableData(jsonData))
   // useEffect(() => {
   //   setDataBase((prev) => {
   //     const index = prev.findIndex(v => v.id === id)
