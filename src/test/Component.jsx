@@ -72,6 +72,11 @@ const Component = ({ data, components, path }) => {
         { 'justify-self-center': myStyle?.justify === 'center' },
         { 'self-center': myStyle?.items === 'center' }
       )}
+      onClick={e => {
+        e.stopPropagation()
+        putElementIdSelected(component.id)
+        putEditParamsOnSideBar()
+      }}
     >
       {component?.type && (
         <div className="absolute bg-zinc-900 z-40 left-0 w-max px-3 text-zinc-100  flex gap-2 label ">
@@ -79,9 +84,11 @@ const Component = ({ data, components, path }) => {
           <FiEdit
             size={20}
             className="hover:cursor-pointer icon"
-            onClick={() => {
+            onClick={e => {
+              e.stopPropagation()
               putElementIdSelected(component.id)
               putEditionMode('edit')
+              putEditParamsOnSideBar()
             }}
           />
         </div>
@@ -89,13 +96,7 @@ const Component = ({ data, components, path }) => {
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">
         {data.id}
       </p> */}
-      <div
-        className={classNames('w-full')}
-        onClick={e => {
-          e.stopPropagation()
-          putEditParamsOnSideBar()
-        }}
-      >
+      <div className={classNames('w-full')}>
         <Content component={component} />
       </div>
     </div>
