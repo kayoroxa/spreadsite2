@@ -52,15 +52,18 @@ const useElementStore = create<State>(set => ({
   changeImgParam: (id, changes) => {
     return set(prev => {
       const type = 'imgs'
+      const type2 = 'image'
       const newPrev = [...prev.componentsData[type]]
       const index = newPrev.findIndex(x => x.id === id)
       newPrev[index] = { ...newPrev[index], ...changes }
 
       if (index > -1) {
-        return { componentsData: { ...prev.componentsData, [type]: newPrev } }
+        newPrev[index] = { ...newPrev[index], ...changes }
       } else {
-        return { componentsData: prev.componentsData }
+        newPrev.push({ id, name: type2 + '-' + id, type: type2, ...changes })
       }
+      // return { componentsData: prev.componentsData }
+      return { componentsData: { ...prev.componentsData, [type]: newPrev } }
     })
   },
   // changeParams: (id, param, newValue) =>

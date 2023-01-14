@@ -3,12 +3,50 @@ import TextArea from '../atoms/TextArea'
 import { devContext } from '../organisms/WrapperDevEdit'
 import useElementStore from '../store/useElementStore'
 import useToolKitStore from '../store/useToolKitStore'
+import { _ControlValueObj } from '../utils/@types/_DevEdit'
+
+function MyControls({ id, values }: { id: string; values: _ControlValueObj }) {
+  const setControls = useToolKitStore(state => state.setControls)
+  const changeVideoParam = useElementStore(state => state.changeVideoParam)
+  const changeImgParam = useElementStore(state => state.changeImgParam)
+  const controls = useToolKitStore(state => state.controls)
+
+  if (values.type === 'textArea') {
+    return (
+      <TextArea
+        autoFocus={true}
+        valueAlternative={String(values.value)}
+        className="w-full"
+        onTextChange={(value, result) => {
+          console.log({ values })
+          if (values.elementType === 'video') {
+            changeVideoParam(id, { src: result })
+          } else {
+            changeImgParam(id, { src: result })
+          }
+          setControls(
+            {
+              [id]: { ...controls[id], value },
+            },
+            true
+          )
+        }}
+      />
+    )
+  }
+  return <input />
+}
 
 export default function Edit() {
   const { childEdit } = useContext(devContext)
   const controls = useToolKitStore(state => state.controls)
-  const setControls = useToolKitStore(state => state.setControls)
-  const changeVideoParam = useElementStore(state => state.changeVideoParam)
+
+  const elementIdSelected = useToolKitStore(state => state.elementIdSelected)
+
+  const selectedProps =
+    elementIdSelected && controls[elementIdSelected]
+      ? controls[elementIdSelected]
+      : false
 
   return (
     <section className="w-[20vw] bg-zinc-300 flex flex-col  items-start ">
@@ -22,30 +60,21 @@ export default function Edit() {
       </header>
       <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
       <div className="flex flex-wrap gap-4 w-full p-6 text-black">
-        {controls[0]?.type && 'type: ' + controls[0]?.type}
+        {/* {selectedProps && selectedProps?.type && 'type: ' + controls[0]?.type} */}
         <br />
-        {'id: ' + Object.keys(controls)[0]}
-        {Object.entries(controls).map(([id, c], i) => {
-          if (c.type === 'textArea') {
-            return (
-              <TextArea
-                autoFocus={true}
-                valueAlternative={String(c.value)}
-                className="w-full"
-                onTextChange={(value, result) => {
-                  changeVideoParam(id, { src: result })
-                  setControls(
-                    {
-                      [id]: { ...controls[id], value },
-                    },
-                    true
-                  )
-                }}
-              />
-            )
-          }
-          return <input />
-        })}
+        {elementIdSelected
+          ? 'id: ' + elementIdSelected
+          : 'Selecione 1 elemento...'}
+
+        {selectedProps && elementIdSelected && (
+          <MyControls
+            id={elementIdSelected}
+            values={controls[elementIdSelected]}
+          />
+        )}
+        {/* {Object.entries(controls).map(([id, c], i) => {
+          
+        })} */}
       </div>
     </section>
   )

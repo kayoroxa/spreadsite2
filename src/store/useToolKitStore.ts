@@ -19,10 +19,11 @@ const useToolKitStore = create<State>(set => ({
     const id = Object.keys(newControls)[0]
     set(prevState => {
       const hasId = Object.keys(prevState.controls).includes(id)
+
       if (hasId && !force) return { controls: prevState.controls }
 
       return {
-        controls: newControls,
+        controls: { ...prevState.controls, ...newControls },
       }
     })
   },
