@@ -1,11 +1,14 @@
 import { useContext } from 'react'
 import TextArea from '../atoms/TextArea'
 import { devContext } from '../organisms/WrapperDevEdit'
+import useElementStore from '../store/useElementStore'
 import useToolKitStore from '../store/useToolKitStore'
 
 export default function Edit() {
-  const { childEdit, setControls } = useContext(devContext)
+  const { childEdit } = useContext(devContext)
   const controls = useToolKitStore(state => state.controls)
+  const setControls = useToolKitStore(state => state.setControls)
+  const changeVideoParam = useElementStore(state => state.changeVideoParam)
 
   return (
     <section className="w-[20vw] bg-zinc-300 flex flex-col  items-start ">
@@ -19,7 +22,7 @@ export default function Edit() {
       </header>
       <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
       <div className="flex flex-wrap gap-4 w-full p-6 text-black">
-        {JSON.stringify(controls)}
+        {JSON.stringify(Object.keys(controls)[0])}
         {Object.entries(controls).map(([id, c]) => {
           if (c.type === 'textArea') {
             return (
@@ -28,10 +31,10 @@ export default function Edit() {
                 className="w-full h-96"
                 onTextChange={value => {
                   console.log('mudou')
-                  setControls(prev => ({
-                    ...prev,
+                  changeVideoParam(id, { src: value })
+                  setControls({
                     [id]: { ...controls[id], value },
-                  }))
+                  })
                 }}
               />
             )
