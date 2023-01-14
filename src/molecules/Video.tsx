@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import useElementStore from '../store/useElementStore'
 import useToolKitStore from '../store/useToolKitStore'
 import { _Controls } from '../utils/@types/_DevEdit'
@@ -16,16 +16,16 @@ export default function Video({ id }: { id: string }) {
     return videos.find(v => v.id === id)
   }, [videos])
 
-  function set() {
+  const set = useCallback(() => {
     const config: _Controls = {
       [id]: {
         type: 'textArea',
         elementType: 'video',
-        value: myInfo?.src || 'S-LcW_jy-e8',
+        value: myInfo?.src || '',
       },
     }
     mudar(config)
-  }
+  }, [])
 
   useEffect(() => {
     if (elementIdSelected === id) set()

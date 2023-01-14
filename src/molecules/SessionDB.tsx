@@ -54,8 +54,9 @@ function Table({ dbID }: { dbID: string }) {
         <tbody>
           {data.map((line, lineIndex) => (
             <tr>
-              {Object.entries(line).map(([category, value]) => (
+              {Object.entries(line).map(([category, value], i) => (
                 <td
+                  key={i}
                   className="text-xl"
                   contentEditable={true}
                   onBlur={({ target }) =>
@@ -92,7 +93,6 @@ export default function SessionDB() {
   function handleNewCategory(categoryName: string) {
     setDataBase(prev => {
       const newPrev = [...prev]
-      debugger
       const index = newPrev.findIndex(v => v.id === tableId)
       newPrev[index].data = newPrev[index].data.map(line => ({
         ...line,

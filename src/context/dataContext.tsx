@@ -1,7 +1,7 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
-
+import { Dispatch, SetStateAction, useEffect } from 'react'
+import initial from '../utils/mock-data.json'
 export interface Data {
   [id: string]: {
     jsRaw: string
@@ -39,7 +39,18 @@ type Section = {
 export function DataContextProvider({ children }: Props) {
   const [data, setData] = useState<Data>({})
   const [dataBase, setDataBase] = useState<_DataBase[]>([])
-  const [elementsData, setElementsData] = useState<_ComponentsData>([])
+  const [elementsData, setElementsData] = useState<_ComponentsData>(
+    {} as _ComponentsData
+  )
+
+  useEffect(() => {
+    const dbID = '784'
+    setDataBase(prev => {
+      const newPrev = [...prev]
+      newPrev.push({ id: dbID, name: 'tabela nutricional', data: initial })
+      return newPrev
+    })
+  }, [])
 
   return (
     <dataContext.Provider

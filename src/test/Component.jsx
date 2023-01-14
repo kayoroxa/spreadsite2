@@ -83,11 +83,11 @@ const Component = ({ data, components, path }) => {
         { 'self-center': myStyle?.items === 'center' }
       )}
     >
-      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-6 text-zinc-100  flex gap-5 label ">
-        <AiOutlineDrag size={20} className="hover:cursor-pointer" />
+      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-3 text-zinc-100  flex gap-2 label ">
+        <AiOutlineDrag size={20} className="hover:cursor-pointer icon" />
         <FiEdit
           size={20}
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer icon"
           onClick={() => {
             putElementIdSelected(component.id)
             putEditionMode('edit')

@@ -70,3 +70,7 @@ div:hover > .drag, .drag:hover {
   cursor: move;
   pointer-events: all;
 }
+
+.icon:hover {
+  fill: hsl(165, 56%, 69%) !important;
+}

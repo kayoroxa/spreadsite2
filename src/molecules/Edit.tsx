@@ -22,19 +22,24 @@ export default function Edit() {
       </header>
       <div className="flex flex-wrap gap-4 w-full p-6 ">{childEdit}</div>
       <div className="flex flex-wrap gap-4 w-full p-6 text-black">
-        {JSON.stringify(Object.keys(controls)[0])}
-        {Object.entries(controls).map(([id, c]) => {
+        {controls[0]?.type && 'type: ' + controls[0]?.type}
+        <br />
+        {'id: ' + Object.keys(controls)[0]}
+        {Object.entries(controls).map(([id, c], i) => {
           if (c.type === 'textArea') {
             return (
               <TextArea
+                autoFocus={true}
                 valueAlternative={String(c.value)}
-                className="w-full h-96"
-                onTextChange={value => {
-                  console.log('mudou')
-                  changeVideoParam(id, { src: value })
-                  setControls({
-                    [id]: { ...controls[id], value },
-                  })
+                className="w-full"
+                onTextChange={(value, result) => {
+                  changeVideoParam(id, { src: result })
+                  setControls(
+                    {
+                      [id]: { ...controls[id], value },
+                    },
+                    true
+                  )
                 }}
               />
             )

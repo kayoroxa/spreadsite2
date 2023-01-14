@@ -1,12 +1,12 @@
-import { useContext } from 'react'
 import SessionApp from '../molecules/SessionApp'
 import SessionDB from '../molecules/SessionDB'
 // import layoutContext from '../context/LayoutContent'
-import WrapperDevEdit, { devContext } from '../organisms/WrapperDevEdit'
+import WrapperDevEdit from '../organisms/WrapperDevEdit'
+import useToolKitStore from '../store/useToolKitStore'
 import useApp from '../utils/useApp'
 
 function Main() {
-  const { editionMode } = useContext(devContext)
+  const editionMode = useToolKitStore(store => store.editionMode)
   const { layout, handleDrop, renderRow } = useApp()
   return (
     <>
