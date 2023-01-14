@@ -1,10 +1,9 @@
 'use client'
 
-import { useContext } from 'react'
 import { FaDatabase } from 'react-icons/fa'
 import { IoMdAddCircle } from 'react-icons/io'
 import { MdEdit } from 'react-icons/md'
-import { devContext } from '../organisms/WrapperDevEdit'
+import useToolKitStore from '../store/useToolKitStore'
 
 import SideBarItem from '../test/SideBarItem'
 import { SIDEBAR_ITEMS } from '../utils/constants'
@@ -25,14 +24,15 @@ function Add() {
 }
 
 export default function DevSideTools({}: any) {
-  const { editionMode, setEditionMode } = useContext(devContext)
+  const editionMode = useToolKitStore(store => store.editionMode)
+  const putEditionMode = useToolKitStore(store => store.putEditionMode)
 
   return (
     <div className="h-screen bg-purple-800 flex">
       <section className="flex flex-col gap-4 p-4">
         <div
           onClick={() =>
-            setEditionMode(prev => (prev === 'add' ? false : 'add'))
+            putEditionMode(prev => (prev === 'add' ? false : 'add'))
           }
           className={'hover:cursor-pointer'}
         >
@@ -44,7 +44,7 @@ export default function DevSideTools({}: any) {
         </div>
         <div
           onClick={() =>
-            setEditionMode(prev => (prev === 'edit' ? false : 'edit'))
+            putEditionMode(prev => (prev === 'edit' ? false : 'edit'))
           }
           className="hover:cursor-pointer"
         >
@@ -55,7 +55,7 @@ export default function DevSideTools({}: any) {
           Edit
         </div>
         <div
-          onClick={() => setEditionMode(prev => (prev === 'db' ? false : 'db'))}
+          onClick={() => putEditionMode(prev => (prev === 'db' ? false : 'db'))}
           className="hover:cursor-pointer"
         >
           <FaDatabase
