@@ -37,11 +37,7 @@ const Row = ({ data, components, handleDrop, path }) => {
   }
 
   return (
-    <div
-      ref={ref}
-      style={{ ...style, opacity }}
-      className="relative bg-orange-300/40 "
-    >
+    <div ref={ref} style={{ ...style, opacity }} className="relative  ">
       {/* <p className="absolute top-0 bg-green-200 px-3 text-xs right-0 text-black z-20 opacity-25">
         {data.id}
       </p> */}
@@ -65,8 +61,8 @@ const Row = ({ data, components, handleDrop, path }) => {
         })}
         <DropZone
           data={{
-            path: `${path}-${data.children.length}`,
-            childrenCount: data.children.length,
+            path: `${path}-${data.children?.length}`,
+            childrenCount: data.children?.length,
           }}
           onDrop={handleDrop}
           className="horizontalDrag"

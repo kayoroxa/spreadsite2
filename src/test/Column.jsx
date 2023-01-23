@@ -1,6 +1,7 @@
 import classNames from 'classNames'
 import React, { useRef } from 'react'
 import { useDrag } from 'react-dnd'
+import { AiOutlineDrag } from 'react-icons/ai'
 import Component from './Component'
 import { COLUMN } from './constants'
 import DropZone from './DropZone'
@@ -44,16 +45,27 @@ const Column = ({ data, components, handleDrop, path }) => {
       ref={ref}
       style={{ ...style, opacity }}
       className={classNames(
-        ' bg-blue-300/40 p-1 flex flex-col flex-auto relative text-black',
+        ' bg-green-300/40 p-1 pt-3 flex flex-col flex-auto relative text-black basis-full',
         { 'justify-center': myStyle?.justify === 'center' },
         { 'items-center': myStyle?.items === 'center' }
       )}
       onClick={() => putEditParamsOnSideBar()}
     >
+      <div className="absolute bg-zinc-900 z-40 left-0 w-max px-3 text-zinc-100  flex gap-2 label ">
+        <AiOutlineDrag size={20} className="hover:cursor-pointer icon" />
+      </div>
+
       {/* <p className="absolute top-0 -mt-3 bg-green-200 px-3 text-sm opacity-25">
         {data.id}
       </p> */}
-      {data.children.map((component, index) => {
+      <DropZone
+        data={{
+          path: `${path}-${data.children?.length}`,
+          childrenCount: data.children?.length,
+        }}
+        onDrop={handleDrop}
+      />
+      {data.children?.map((component, index) => {
         const currentPath = `${path}-${index}`
 
         return (
@@ -71,8 +83,8 @@ const Column = ({ data, components, handleDrop, path }) => {
       })}
       <DropZone
         data={{
-          path: `${path}-${data.children.length}`,
-          childrenCount: data.children.length,
+          path: `${path}-${data.children?.length}`,
+          childrenCount: data.children?.length,
         }}
         onDrop={handleDrop}
         isLast

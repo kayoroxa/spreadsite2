@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { AiOutlineDrag } from 'react-icons/ai'
 import { FiEdit } from 'react-icons/fi'
@@ -40,6 +40,7 @@ function Content({ component }) {
 
 const Component = ({ data, components, path }) => {
   const ref = useRef(null)
+  const [show, setSHow] = useState(true)
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: COMPONENT, id: data.id, path },
@@ -47,6 +48,7 @@ const Component = ({ data, components, path }) => {
     type: COMPONENT,
     collect: monitor => ({
       isDragging: monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0 : 1,
     }),
   })
 
@@ -61,6 +63,7 @@ const Component = ({ data, components, path }) => {
     store => store.putElementIdSelected
   )
   const putEditionMode = useToolKitStore(store => store.putEditionMode)
+  if (!show) return <></>
 
   return (
     <div
@@ -91,6 +94,7 @@ const Component = ({ data, components, path }) => {
               putEditParamsOnSideBar()
             }}
           />
+          <button onClick={() => setSHow(false)}>Remove</button>
         </div>
       )}
       {/* <p className=" absolute top-0 bg-green-200 px-3 text-xs right-0 opacity-25">

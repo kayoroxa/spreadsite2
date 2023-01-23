@@ -48,9 +48,7 @@ export default function WrapperDevEdit({ children, className }: Props) {
       >
         <DevSideTools />
         <main className={'overflow-auto max-h-screen w-full p-4 '}>
-          <div className={'dark:bg-zinc-800 ' + ' ' + className}>
-            {children}
-          </div>
+          <div className={'dark:bg-zinc-800 min-h-full h-full'}>{children}</div>
         </main>
       </devContext.Provider>
     </div>

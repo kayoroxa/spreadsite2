@@ -10,26 +10,28 @@ interface IProps {
 
 export default function SessionApp({ handleDrop, renderRow, layout }: IProps) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-full">
       {layout.map((row, index) => {
         const currentPath = `${index}`
 
         return (
           <Fragment key={row.id}>
             <DropZone
+              small={true}
               data={{
                 path: currentPath,
                 childrenCount: layout.length,
               }}
               onDrop={handleDrop}
               isLast={false}
-              className=""
+              className="bg-zinc-900"
             />
             {renderRow(row, currentPath)}
           </Fragment>
         )
       })}
       <DropZone
+        small={false}
         data={{
           path: `${layout.length}`,
           childrenCount: layout.length,
@@ -38,6 +40,11 @@ export default function SessionApp({ handleDrop, renderRow, layout }: IProps) {
         isLast
         className=""
       />
+      {layout.length === 0 && (
+        <div className="absolute">
+          esperando sua boa vontade de arrastar um element para aqui
+        </div>
+      )}
     </div>
   )
 }

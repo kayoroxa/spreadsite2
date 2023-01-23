@@ -12,7 +12,7 @@ const SideBarItem = ({ data }) => {
 
   return (
     <div
-      className="bg-zinc-200 w-72 flex flex-col justify-center items-center rounded-lg p-2 text-zinc-700 flex-1 hover:cursor-pointer hover:text-blue-500"
+      className="bg-zinc-200 w-72 flex flex-col justify-center items-center rounded-lg p-2 text-zinc-700 flex-1 hover:cursor-move hover:text-blue-500"
       ref={drag}
       style={{ opacity }}
     >

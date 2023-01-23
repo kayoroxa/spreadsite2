@@ -4,13 +4,21 @@ import { COLUMN, COMPONENT, ROW, SIDEBAR_ITEM } from './constants'
 
 const ACCEPTS = [SIDEBAR_ITEM, COMPONENT, ROW, COLUMN]
 
-const DropZone = ({ data, onDrop, isLast, className }) => {
+interface Props {
+  data: any
+  onDrop: any
+  isLast?: any
+  className: any
+  small?: any
+}
+
+const DropZone = ({ data, onDrop, isLast, className, small }: Props) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ACCEPTS,
     drop: (item, monitor) => {
       onDrop(data, item)
     },
-    canDrop: (item, monitor) => {
+    canDrop: (item: any, monitor) => {
       const dropZonePath = data.path
       const splitDropZonePath = dropZonePath.split('-')
       const itemPath = item.path
@@ -70,12 +78,13 @@ const DropZone = ({ data, onDrop, isLast, className }) => {
   return (
     <div
       className={classNames(
-        'dropZone',
+        'dropZone h-44 flex-1',
         { active: isActive, isLast },
+        { 'flex-grow-0': small },
         className
       )}
       ref={drop}
-    />
+    ></div>
   )
 }
 export default DropZone

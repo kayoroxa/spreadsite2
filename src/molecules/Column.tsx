@@ -50,7 +50,7 @@ const Column = ({ data, components, handleDrop, path }: Props) => {
       className="base draggable column"
     >
       {data.id}
-      {data.children.map((component: any, index: any) => {
+      {data.children?.map((component: any, index: any) => {
         const currentPath = `${path}-${index}`
 
         return (
@@ -68,8 +68,8 @@ const Column = ({ data, components, handleDrop, path }: Props) => {
       })}
       <TrashDropZone
         data={{
-          path: `${path}-${data.children.length}`,
-          childrenCount: data.children.length,
+          path: `${path}-${data.children?.length}`,
+          childrenCount: data.children?.length,
         }}
         onDrop={handleDrop}
         isLast

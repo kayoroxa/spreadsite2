@@ -35,7 +35,8 @@ body {
 }
 
 .dropZone {
-  flex: 0 0 auto;
+  /* flex: 0 0 auto; */
+  flex-basis: 20px;
   align-self: stretch;
   height: 10px;
   transition: 200ms all;
@@ -60,7 +61,6 @@ body {
   background: #00a2ff;
   transition: 100ms all;
 }
-
 
 .component {
   height: 60px;

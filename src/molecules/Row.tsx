@@ -67,8 +67,8 @@ const Row = ({ data, components, handleDrop, path }: Props) => {
         })}
         <DropZone
           data={{
-            path: `${path}-${data.children.length}`,
-            childrenCount: data.children.length,
+            path: `${path}-${data.children?.length}`,
+            childrenCount: data.children?.length,
           }}
           onDrop={handleDrop}
           // className="horizontalDrag"
