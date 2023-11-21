@@ -22,6 +22,7 @@
 // }
 
 export default function useStringCode(string: string, data: any) {
+  let db = data
   const isCode = string.startsWith('=')
   if (isCode && data) {
     try {

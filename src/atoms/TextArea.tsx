@@ -31,8 +31,6 @@ export default function TextArea(props: TextAreaProps) {
 
   const data = dataBase[0]?.data
 
-  console.log(data, dataBase)
-
   return (
     <div className="w-full bg-white text-black">
       <div
@@ -41,6 +39,7 @@ export default function TextArea(props: TextAreaProps) {
       ></div>
       <div
         role="textbox"
+        spellCheck="false"
         contentEditable={true}
         {...props}
         className="h-max p-2 rounded-b-3xl"
